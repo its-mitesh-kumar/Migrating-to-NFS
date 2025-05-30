@@ -6,7 +6,7 @@ Provide a complete and detailed guide for plugin authors to migrate from the leg
 
 ---
 
-### 📌 Overview
+### 📌 Steps for Migration
 
 * Transition from imperative plugin structure to a modern, declarative structure
 * Replace old plugin constructs with new extension blueprints like `PageBlueprint`, `ApiBlueprint`, and `ComponentBlueprint`
@@ -133,13 +133,42 @@ const fooPage = PageBlueprint.make({
 Declare APIs in a modular and reusable manner.
 
 ```ts
-import { ApiBlueprint } from '@backstage/frontend-plugin-api';
-
-const myApi = ApiBlueprint.from({
-  factory: myApiFactory,
+export const jfrogArtifactoryPlugin = createPlugin({
+  ...,
+  apis: [
+    createApiFactory({
+      api: jfrogArtifactoryApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+        configApi: configApiRef,
+        identityApi: identityApiRef,
+      },
+      factory: ({ discoveryApi, configApi, identityApi }) =>
+        new JfrogArtifactoryApiClient({ discoveryApi, configApi, identityApi }),
+    }),
+  ],
 });
 ```
 
+```ts
+import { ApiBlueprint } from '@backstage/frontend-plugin-api';
+
+export const jfrogArtifactoryApi = ApiBlueprint.make({
+  params: {
+    factory: createApiFactory({
+      api: jfrogArtifactoryApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+        configApi: configApiRef,
+        identityApi: identityApiRef,
+      },
+      factory: ({ discoveryApi, configApi, identityApi }) =>
+        new JfrogArtifactoryApiClient({ discoveryApi, configApi, identityApi }),
+    }),
+  },
+});
+```
+And update `createFrontendPlugin` `extensions` array.
 ✅ **Benefits**:
 
 * Clear separation of API concerns
