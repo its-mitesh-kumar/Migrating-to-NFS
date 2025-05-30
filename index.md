@@ -8,11 +8,19 @@ Provide a complete and detailed guide for plugin authors to migrate from the leg
 
 ### 📌 Steps for Migration
 
-* Transition from imperative plugin structure to a modern, declarative structure
-* Replace old plugin constructs with new extension blueprints like `PageBlueprint`, `ApiBlueprint`, and `ComponentBlueprint`
-* Use `createFrontendPlugin` for plugin registration
-* Allow parallel support for both legacy and new frontend systems via an `alpha.tsx` entry point
-* Enable plugins to integrate seamlessly into federated apps built with the new Frontend System
+* Start by identifying the legacy plugin setup using createPlugin from @backstage/core-plugin-api
+
+* Introduce a new alpha.tsx file to support the new system alongside the legacy plugin
+
+* Configure the exports and typesVersions in package.json to include the alpha.tsx entry point
+
+* Refactor all plugin Pages using PageBlueprint from @backstage/frontend-plugin-api
+
+* Migrate API definitions to use ApiBlueprint
+
+* Convert reusable components and widgets using ComponentBlueprint
+
+* Use compatibility utilities like convertLegacyRouteRef and compatWrapper to bridge the legacy and new APIs
 
 ---
 
