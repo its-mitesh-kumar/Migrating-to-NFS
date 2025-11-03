@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Migrating-to-NFS
+  annotations:
+    github.com/project-slug: its-mitesh-kumar/Migrating-to-NFS
+spec:
+  type: other
+  owner: its-mitesh-kumar
+  lifecycle: unknown
